@@ -1,0 +1,6 @@
+-std=c11
+-Wall
+-Wextra
+-Wno-unused-function
+-Wno-unused-variable
+-DMT_IMPLEMENTATION
