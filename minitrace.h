@@ -3,7 +3,7 @@
     
     MINITRACE LIBRARY (STB-STYLE)
     
-    This library allows you to print colorful (or not) stack trace using 
+    This library allows you to get and print colorful (or not) stack trace using 
     libunwind and libdw.
 
     # Macro Interface
@@ -211,8 +211,8 @@ struct mt_trace_loc {
 
     // I don't know why but 'dwfl_lineinfo' uses integers for line 
     // and col so we just do the same to avoid casting.
-    // becouse of that we use (-1) to indicate that it was not possible 
-    // to get the line and col
+    // (-1) indicates that it was not possible to get the 
+    // line and col
     int32_t    line;
     int32_t    col;
 };
@@ -268,7 +268,7 @@ struct mt__stack_opts {
  * @returns FAILS :: != MT_OK
  */
 mt_result mt_unwind_stack_(mt_stack_raw_traces* out, struct mt__stack_opts opts);
-#define mt_unwind_stack(traces, ...)\
+#define mt_unwind_stack(traces, ...) /* wrapper */ \
             mt_unwind_stack_((traces), mt__stack_opts_def(__VA_ARGS__))
 
 
@@ -282,7 +282,7 @@ mt_result mt_unwind_stack_(mt_stack_raw_traces* out, struct mt__stack_opts opts)
  * @returns FAILS :: != MT_OK
  */
 mt_result mt_get_current_stack_trace_(mt_stack_traces* out, struct mt__stack_opts opts);
-#define mt_get_current_stack_trace(traces, ...)\
+#define mt_get_current_stack_trace(traces, ...) /* wrapper */\
         mt_get_current_stack_trace_((traces), mt__stack_opts_def(__VA_ARGS__))
 
 
@@ -293,7 +293,7 @@ mt_result mt_get_current_stack_trace_(mt_stack_traces* out, struct mt__stack_opt
  * @returns FAILS :: != MT_OK
  */
 mt_result mt_print_current_stack_trace_(struct mt__stack_print_opts opts);
-#define mt_print_current_stack_trace(...)\
+#define mt_print_current_stack_trace(...) /* wrapper */ \
         mt_print_current_stack_trace_(mt__stack_print_opts_def(__VA_ARGS__))
 
 void mt_free_stack_traces(mt_stack_traces* traces);

@@ -1,3 +1,7 @@
+/// FILE: run_tests.c
+/// BRIEF: test runner for minitrace
+/// COMMAND: cc -o run_tests run_tests.c
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -166,16 +170,16 @@ int run_test(size_t index) {
     }
 
     sprintf(command_buffer, "./%.*s", (int)output.len, output.items);
-    if(system(command_buffer) < 0) {
+    int r;
+    if((r = system(command_buffer)) < 0) {
         fprintf(stderr, "unable to run command '%s': %s", command_buffer, strerror(errno));
         defer_with_value(FAIL);
-    }    
-
+    }
 
     print_colored_section(HEADER_COLOR, {
         fprintf(stdout, "\n");
         fprintf(stdout, "===========================================================================\n");
-        fprintf(stdout, "=== END TEST '%s'\n", test_files[index]);
+        fprintf(stdout, "=== END TEST '%s' (%s)\n", test_files[index], r != 0? "FAILED" : "OK");
         fprintf(stdout, "===========================================================================\n");
         fprintf(stdout, "\n");
     });
