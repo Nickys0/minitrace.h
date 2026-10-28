@@ -164,13 +164,15 @@ int run_test(size_t index) {
         fprintf(stdout, "\n");
     });
 
-    if(system(command_buffer) < 0) {
+    int r;
+    if((r = system(command_buffer)) < 0) {
         fprintf(stderr, "unable to run command '%s': %s", command_buffer, strerror(errno));
         defer_with_value(FAIL);
+    } else if(r != 0) {
+        goto defer;
     }
 
     sprintf(command_buffer, "./%.*s", (int)output.len, output.items);
-    int r;
     if((r = system(command_buffer)) < 0) {
         fprintf(stderr, "unable to run command '%s': %s", command_buffer, strerror(errno));
         defer_with_value(FAIL);
